@@ -1,0 +1,79 @@
+
+# MANUAL
+man cd
+man head
+
+# SHOW CURRENT PATH
+pwd
+
+# LISTING OUT ALL OTHER DIRS FROM THE CURRENT DIR
+ls
+# could also specify greater detail
+ls /home/seasons
+
+# MORE ROBUST LISTING OF EVERYTHING
+ls -R
+
+# MOVE TO ANOTHER DIRECTORY -- Like double clicking on a folder "change directory"
+cd
+
+# MOVE UP A DIRECTORY TO A PARENT DIRECTORY
+cd ..
+# 2 dots indicates the directory above the current one
+# can repeat many times to manually jump up
+
+# GO HOME
+cd ~
+
+# LOCATE OR "FIND" A FILE
+locate -i *mitch*brody* # Finds a file with 'mitch' or 'brody' and wildcards
+
+# CREATE NEW FILE
+touch testfile.txt
+
+# COPY FILES --  creates a copy of original.txt and names it duplicate.txt
+cp original.txt duplicate.tx
+# Copy file from one location and put in another with a new name
+cp location1/original.txt location2/newname.csv
+
+# MOVE FILES-- moves spring.csv and summer.csv into folder called backup
+mv seasonal/spring.csv seasonal/summer.csv backup
+
+# RENAMING FILES-- Rename winter.csv to winter.bck.csv
+mv winter.csv winter.bck.csv
+
+# DELETING FILES-- Remove files
+rm autumn.csv
+
+# DELETING DIRECTORIES-- This is more serious
+rmdir
+# Only works when the directory is empty for saftey
+
+# CREATE NEW DIRECTORY
+mkdir newDirectory # Puts in home folder
+mkdir newdiretory/Mitch # Puts in sub folder
+
+# GET A QUICK VIEW OF A FILE
+cat doc.txt
+
+# CAN ALSO VIEW TOP BY HEAD()
+head seasons/seasons.csv
+# Displays first 10 lines by default
+# Can change by...
+head -n 100 seasons/seasons.csv
+
+# REPEATING OLD COMMANDS
+history # shows old things
+#prints out previous Commands
+
+# FINDING / SELECTING CERTAIN THINGS IN A FILE
+grep Mitch names/badasses.csv # will find everything to do with Mitch in this file
+# Grep can also find other patterns. Use man grep if needed
+# -c, -h, -i, -l, -n, -v are all additional arguments #can combine multiple of these flags
+grep -c incisor seasonal/autumn.csv seasonal/winter.csv
+grep -v -n molar seasonal/winter.csv
+
+# SELECTING CERTAIN LINES AND SAVING THEM IN A NEW FILE
+head -n 5 seasonal/winter.csv > top.csv
+
+# Use 'pipe' instead of the above...

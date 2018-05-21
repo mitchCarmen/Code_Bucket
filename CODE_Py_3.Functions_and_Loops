@@ -1,0 +1,161 @@
+###############################################################
+####################### GETTING STARTED
+
+# FUNCTIONS AND LOOPS!!!
+
+# 1: FUNCTIONS
+    # Global Scope-available in main body of script. Call 'global' before the local variable.
+    # Local Scope-available only in local function. Local is always searched first in a function
+    # Built In Scope
+    # Flexible Functions
+# 2: LOOPS
+# 3: LAMBDA FUNCTIONS
+
+############################################################
+#################### FUNCTIONS
+
+# WRITING FUNCTIONS BASICS
+def shout(word):
+    """ Make the word concatenated with !!! """ # This is the definition of what the function does!
+    shout_word = word + '!!!'
+    print(shout_word)
+
+
+# Define shout with parameters word1 and word2
+def shout(word1, word2):
+    """Concatenate strings with three exclamation marks"""
+    # Concatenate word1 with '!!!': shout1
+    shout1 = word1 + '!!!'
+    # Concatenate word2 with '!!!': shout2
+    shout2 = word2 + '!!!'
+    # Concatenate shout1 with shout2: new_shout
+    new_shout = shout1 + shout2
+    # Return new_shout
+    return new_shout
+# Pass 'congratulations' and 'you' to shout(): yell
+yell = shout('congratulations','you')
+print(yell)
+
+
+# MORE COMPLICATED OF ABOVE : Define shout_all with parameters word1 and word2
+def shout_all(word1, word2):
+    # Concatenate word1 with '!!!': shout1
+    shout1 = word1 + '!!!'
+    # Concatenate word2 with '!!!': shout2
+    shout2 = word2 + '!!!'
+    # Construct a tuple with shout1 and shout2: shout_words
+    shout_words = (shout1, shout2)
+    # Return shout_words
+    return shout_words
+# Pass 'congratulations' and 'you' to shout_all(): yell1, yell2
+yell1, yell2 = (shout_all('congratulations','you'))
+# Print yell1 and yell2
+print(yell1)
+print(yell2)
+
+
+# NESTED FUNCTION
+
+# Define three_shouts
+def three_shouts(word1, word2, word3):
+    """Returns a tuple of strings
+    concatenated with '!!!'."""
+    # Define inner
+    def inner(word):
+        """Returns a string concatenated with '!!!'."""
+        return word + '!!!'
+    # Return a tuple of strings
+    return (inner(word1), inner(word2), inner(word3))
+# Call three_shouts() and print
+print(three_shouts('a', 'b', 'c'))
+
+
+# FLEXIBLE ARGs
+
+# 1
+# Define shout_echo
+def shout_echo(word1, echo=1, intense=False):
+    """Concatenate echo copies of word1 and three
+    exclamation marks at the end of the string."""
+    # Concatenate echo copies of word1 using *: echo_word
+    echo_word = word1 * echo
+    # Capitalize echo_word if intense is True
+    if intense is True:
+        # Capitalize and concatenate '!!!': echo_word_new
+        echo_word_new = echo_word.upper() + '!!!'
+    else:
+        # Concatenate '!!!' to echo_word: echo_word_new
+        echo_word_new = echo_word + '!!!'
+    # Return echo_word_new
+    return echo_word_new
+
+# Call shout_echo() with "Hey", echo=5 and intense=True: with_big_echo
+with_big_echo = shout_echo('Hey', 5, True)
+
+# 2 - Multi ARGs (*args) and (**kwargs)
+# Define report_status
+def report_status(**kwargs):
+    """Print out the status of a movie character."""
+    print("\nBEGIN: REPORT\n")
+    # Iterate over the key-value pairs of kwargs
+    for keys, values in kwargs.items():
+        # Print out the keys and values, separated by a colon ':'
+        print(keys + ": " + values)
+    print("\nEND REPORT")
+
+# First call to report_status()
+report_status(name = 'luke', affiliation = 'jedi', status = 'missing')
+# Second call to report_status()
+report_status(name='anakin', affiliation='sith lord', status='deceased')
+
+
+
+############################################################
+#################### LOOPS
+
+# 1: Looping over items in a column and counting how many languages there are in the tweets data
+import pandas as pd
+# Import Twitter data as DataFrame: df
+df = pd.read_csv('tweets.csv')
+# Initialize an empty dictionary: langs_count
+langs_count = {}
+# Extract column from DataFrame: col
+col = df['lang']
+# Iterate over lang column in DataFrame
+for entry in col:
+    # If the language is in langs_count, add 1
+    if entry in langs_count.keys():
+        langs_count[entry] += 1
+    # Else add the language to langs_count, set the value to 1
+    else:
+        langs_count[entry] = 1
+# Print the populated dictionary
+print(langs_count)
+ {'en': 97, 'und': 2, 'et': 1}
+
+
+
+############################################################
+#################### LAMBDA FUNCTIONS
+
+raise_to_power = lambda x, y: x ** y
+
+echo_word = lambda word1, echo: word1 * echo
+
+# Create a list of strings: spells
+spells = ["protego", "accio", "expecto patronum", "legilimens"]
+# Use map() to apply a lambda function over spells: shout_spells
+shout_spells = map(lambda a: a + '!!!', spells) # Map converts to map item-- use list to show it
+# Convert shout_spells to a list: shout_spells_list
+shout_spells_list = list(shout_spells)
+# Convert shout_spells into a list and print it
+print(shout_spells_list)
+
+# Create a list of strings: fellowship
+fellowship = ['frodo', 'samwise', 'merry', 'aragorn', 'legolas', 'boromir', 'gimli']
+# Use filter() to apply a lambda function over fellowship: result
+result = filter(lambda a: len(a) > 6, fellowship)
+# Convert result to a list: result_list
+result_list = list(result)
+# Convert result into a list and print it
+print(result_list)
