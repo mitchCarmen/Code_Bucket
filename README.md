@@ -1,2 +1,2 @@
-# Manipulations
-Pandas manipulations
+# Everything including loadings, cleaning, manipulating, and modeling data
+
