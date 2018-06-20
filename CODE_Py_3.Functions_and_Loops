@@ -1,4 +1,9 @@
 ###############################################################
+############### RESOURCES
+https://developers.google.com/edu/python/introduction
+https://docs.python.org/3/tutorial/index.html
+
+
 ####################### GETTING STARTED
 
 # FUNCTIONS AND LOOPS!!!
@@ -8,7 +13,14 @@
     # Local Scope-available only in local function. Local is always searched first in a function
     # Built In Scope
     # Flexible Functions
+    # extract_data
 # 2: LOOPS
+    # IF statement
+    # FOR statement
+    # RANGE statement
+    # BREAK / CONTINUE / ELSE
+    # Looping over Columns
+    # MSE Loop
 # 3: LAMBDA FUNCTIONS
 
 ############################################################
@@ -110,8 +122,127 @@ report_status(name='anakin', affiliation='sith lord', status='deceased')
 
 
 
+# EXTRACT_DATA (filename, num_images)
+
+def extract_data(filename, num_images):
+    with gzip.open(filename) as bytestream:
+        bytestream.read(16)
+        buf = bytestream.read(28 * 28 * num_images)
+        data = np.frombuffer(buf, dtype=np.uint8).astype(np.float32)
+        data = data.reshape(num_images, 28,28)
+        return data
+train_data = extract_data('train-images-idx3-ubyte.gz', 60000)
+test_data = extract_data('t10k-images-idx3-ubyte.gz', 10000)
+
+# EXTRACT_LABELS (filename, num_images)
+
+def extract_labels(filename, num_images):
+    with gzip.open(filename) as bytestream:
+        bytestream.read(8)
+        buf = bytestream.read(1 * num_images)
+        labels = np.frombuffer(buf, dtype=np.uint8).astype(np.int64)
+        return labels
+train_labels = extract_labels('train-labels-idx1-ubyte.gz',60000)
+test_labels = extract_labels('t10k-labels-idx1-ubyte.gz',10000)
+
+
 ############################################################
 #################### LOOPS
+
+# IF STATEMENTS
+
+x = int(input("Please enter an integer: "))
+Please enter an integer: 42
+
+if x < 0:
+     x = 0
+     print('Negative changed to zero')
+ elif x == 0:
+     print('Zero')
+ elif x == 1:
+     print('Single')
+ else:
+     print('More')
+
+
+# FOR LOOPS
+
+words = ['cat', 'window', 'defenestrate']
+for w in words:
+    print(w, len(w))
+cat 3
+window 6
+defenestrate 12
+
+for w in words[:]:
+    if len(w) > 6:
+        words.insert(0, w)
+['defenestrate', 'cat', 'window', 'defenestrate']
+
+
+# RANGE STATEMENT
+
+for i in range(5):
+    print(i)
+0
+1
+2
+3
+4
+
+range(5, 10)
+   5, 6, 7, 8, 9
+
+range(0, 10, 3)
+   0, 3, 6, 9
+
+range(-10, -100, -30)
+  -10, -40, -70
+
+a = ['Mary', 'had', 'a', 'little', 'lamb']
+for i in range(len(a)):
+     print(i, a[i])
+0 Mary
+1 had
+2 a
+3 little
+4 lamb
+
+
+# BREAK / CONTINUE & ELSE STATEMENTS
+
+for n in range(2, 10):
+    for x in range(2, n):
+        if n % x == 0:
+            print(n, 'equals', x, '*', n//x)
+            break
+    else:
+        # Loop feel through without finding a factor
+        print(n, 'is a prime number')
+2 is a prime number
+3 is a prime number
+4 equals 2 * 2
+5 is a prime number
+6 equals 2 * 3
+7 is a prime number
+8 equals 2 * 4
+9 equals 3 * 3
+
+for num in range(2, 10):
+     if num % 2 == 0:
+         print("Found an even number", num)
+         continue
+     print("Found a number", num)
+Found an even number 2
+Found a number 3
+Found an even number 4
+Found a number 5
+Found an even number 6
+Found a number 7
+Found an even number 8
+Found a number 9
+
+
 
 # 1: Looping over items in a column and counting how many languages there are in the tweets data
 import pandas as pd
@@ -133,6 +264,25 @@ for entry in col:
 print(langs_count)
  {'en': 97, 'und': 2, 'et': 1}
 
+# 2: MSE LOOP
+n_updates = 20
+mse_hist = []
+# Iterate over the number of updates
+for i in range(n_updates):
+    # Calculate the slope: slope
+    slope = get_slope(input_data, target, weights)
+    # Update the weights: weights
+    weights = weights - (0.01 * slope)
+    # Calculate mse with new weights: mse
+    mse = get_mse(input_data, target, weights)
+    # Append the mse to mse_hist
+    mse_hist.append(mse)
+
+# Plot the mse history
+plt.plot(mse_hist)
+plt.xlabel('Iterations')
+plt.ylabel('Mean Squared Error')
+plt.show()
 
 
 ############################################################

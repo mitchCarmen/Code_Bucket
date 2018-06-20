@@ -1,0 +1,302 @@
+https://www.elastic.co/guide/en/elasticsearch/reference/current/docs.html
+https://www.elastic.co/guide/en/elasticsearch/reference/current/search.html
+
+
+-- Login to Kibana:
+https://hadoop.rcc.uchicago.edu:5601 
+
+-- Login to Elasticsearch:
+https://hadoop.rcc.uchicago.edu:9200
+35.232.114.27:9200
+
+
+-- Connect to Elasticsearch:
+curl -u elastic:cgEaGr4v 35.232.114.27:9200
+
+
+
+-- See content of Elasticsearch:
+curl -u elastic:cgEaGr4v -H 'Content-Type: application/json' -X GET '35.232.114.27:9200/_count?pretty' 
+
+
+
+--Delete existing index:
+curl -u elastic:cgEaGr4v -X DELETE '35.232.114.27:9200/teachers/'
+
+
+
+--It is a good practice to create mappings (DDL in SQL world)
+--Mapping must be created before we index the data:
+curl -u elastic:cgEaGr4v -X PUT '35.232.114.27:9200/teachers/' -H 'Content-Type: application/json' -d'
+{
+  "mappings": {
+    "teachers": { 
+      "properties": { 
+        "name":    { "type": "text"  }, 
+        "lastname":     { "type": "text"  }, 
+        "num_courses":      { "type": "integer" },  
+        "last_update_dt":  {
+          "type":   "date", 
+          "format": "yyyy-MM-dd"
+        }
+      }
+    }
+  }
+}'
+
+--Create students mapping
+curl -u elastic:cgEaGr4v -X PUT '35.232.114.27:9200/students/' -H 'Content-Type: application/json' -d'
+{
+  "mappings": {
+    "students": { 
+      "properties": { 
+        "name":    { "type": "text"  }, 
+        "lastname":     { "type": "text"  }, 
+        "email":      {"type": "text"   },
+        "graduation_dt":      {"type": "text"   },
+        "comments":     {"type": "text"   },
+        "last_update_dt":  {
+          "type":   "date", 
+          "format": "yyyy-MM-dd"
+        }
+      }
+    }
+  }
+}'
+
+
+
+--Posting data with explicit document ID:
+curl -u elastic:cgEaGr4v -X PUT '35.232.114.27:9200/nick/teachers/1' -H 'Content-Type: application/json' -d'
+{
+	"name": "Nick",
+	"lastname": "Kadochnikov",
+	"num_courses": 1,
+	"last_update_dt": "2018-06-01"
+}'
+
+curl -u elastic:cgEaGr4v -X PUT '35.232.114.27:9200/nick/teachers/2' -H 'Content-Type: application/json' -d'
+{
+	"name": "Igor",
+	"lastname": "Yakushin",
+	"num_courses": 1,
+	"last_update_dt": "2018-06-01"
+}'
+
+--Posting data into the students index
+curl -u elastic:cgEaGr4v -X PUT '35.232.114.27:9200/nick/students/2' -H 'Content-Type: application/json' -d'
+{
+  "name": "Mitch",
+  "lastname": "Carmen",
+  "email": "mjcarmen",
+  "graduation_dt": "December 2018",
+  "comments": "Big Data is amazing in general-- data is growing at an exponential pace & most is unstructured so this is very important to learn!",
+  "last_update_dt": "2018-06-09"
+}'
+
+
+
+
+--Retrieving data
+curl -u elastic:cgEaGr4v -X GET '35.232.114.27:9200/nick/teachers/1' -H 'Content-Type: application/json'
+
+--Retrieve with pretty formatting
+curl -u elastic:cgEaGr4v -X GET '35.232.114.27:9200/nick/teachers/1?pretty' -H 'Content-Type: application/json'
+
+--Retrieve with selected fields only
+curl -u elastic:cgEaGr4v -X GET '35.232.114.27:9200/nick/teachers/1?pretty&_source_include=name,lastname' -H 'Content-Type: application/json'
+
+
+
+--Posting data with automatically generated ID.  Must use POST vs. PUT
+curl -u elastic:cgEaGr4v -X POST '35.232.114.27:9200/nick/teachers/?pretty' -H 'Content-Type: application/json' -d'
+{
+	"name": "Nick",
+	"lastname": "Kadochnikov",
+	"num_courses": 1,
+	"last_update_dt": "2018-06-01"
+}'
+
+curl -u elastic:cgEaGr4v -X POST '35.232.114.27:9200/nick/teachers/?pretty' -H 'Content-Type: application/json' -d'
+{
+	"name": "Igor",
+	"lastname": "Yakushin",
+	"num_courses": 1,
+	"last_update_dt": "2018-06-01"
+}'
+
+
+
+--Counting occurences of "Nick" in names using query string as a parameter
+curl -u elastic:cgEaGr4v -X GET '35.232.114.27:9200/nick/teachers/_count?q=name:nick&pretty'
+
+
+--Counting occurences of "Nick" in names using a request body
+curl -u elastic:cgEaGr4v -X GET '35.232.114.27:9200/nick/teachers/_count?pretty' -H 'Content-Type: application/json' -d'
+{
+    "query" : {
+        "term" : { "name" : "nick" }
+    }
+}
+'
+
+
+
+--Searching for occurences of "Nick" in names using query string as a paramater
+curl -u elastic:cgEaGr4v -X GET '35.232.114.27:9200/nick/teachers/_search?q=name:nick&pretty'
+
+--Searching for occurences of "Mitch" in names using query string as a paramater
+curl -u elastic:cgEaGr4v -X GET '35.232.114.27:9200/nick/students/_search?q=name:mitch&pretty'
+
+
+--Searching occurences of "Nick" in names using a request body:
+curl -u elastic:cgEaGr4v -X GET '35.232.114.27:9200/nick/teachers/_search?pretty' -H 'Content-Type: application/json' -d'
+{
+    "query" : {
+        "term" : { "name" : "nick" }
+    }
+}
+'
+
+
+
+--Searching occurences of "Nick" across several fields:
+curl -u elastic:cgEaGr4v -X GET '35.232.114.27:9200/nick/teachers/_search?pretty' -H 'Content-Type: application/json' -d'
+{
+  "query": {
+    "multi_match" : {
+      "query":   "nick",
+      "fields": [ "name", "lastname" ] 
+    }
+  }
+}
+'
+
+
+
+--Searching occurences of "Nick" across all indexes using "_all_" placeholder:
+curl -u elastic:cgEaGr4v -X GET '35.232.114.27:9200/_all/_search?pretty' -H 'Content-Type: application/json' -d'
+{
+    "query" : {
+        "term" : { "name" : "nick" }
+    }
+}
+'
+
+
+
+--Default search behavior is based on "OR" parameter
+curl -u elastic:cgEaGr4v -X GET '35.232.114.27:9200/_all/_search?pretty' -H 'Content-Type: application/json' -d'
+{
+    "query": {
+        "match": {
+            "name": {      
+                "query":    "nick igor"
+            }
+        }
+    }
+}
+'
+
+
+
+--We can explicitely force the "AND" paramater in search
+curl -u elastic:cgEaGr4v -X GET '35.232.114.27:9200/_all/_search?pretty' -H 'Content-Type: application/json' -d'
+{
+    "query": {
+        "match": {
+            "name": {      
+                "query":    "nick igor",
+                "operator": "and"
+            }
+        }
+    }
+}
+'
+
+
+
+--We can even control the match threshold
+curl -u elastic:cgEaGr4v -X GET '35.232.114.27:9200/_all/_search?pretty' -H 'Content-Type: application/json' -d'
+{
+    "query": {
+        "match": {
+            "name": {      
+                "query":    "nick igor",
+                "minimum_should_match": "75%"
+            }
+        }
+    }
+}
+'
+
+
+
+--Deleting the document by ID:
+curl -u elastic:cgEaGr4v -X DELETE '35.232.114.27:9200/nick/teachers/1'
+
+
+
+--Deleting multiple documents using Delete By Query API:
+curl -u elastic:cgEaGr4v -X POST '35.232.114.27:9200/nick/teachers/_delete_by_query?conflicts=proceed&pretty' -H 'Content-Type: application/json' -d'
+{
+    "query" : {
+        "term" : { "name" : "igor" }
+    }
+}
+'
+
+
+
+--Deleting ALL documents using Delete By Query API:
+curl -u elastic:cgEaGr4v -X POST '35.232.114.27:9200/nick/teachers/_delete_by_query?conflicts=proceed&pretty' -H 'Content-Type: application/json' -d'
+{
+  "query": {
+    "match_all": {}
+  }
+}
+'
+
+
+--Seeing what is left in the index (none):
+curl -u elastic:cgEaGr4v -X GET '35.232.114.27:9200/nick/_all/_search?pretty' -H 'Content-Type: application/json' -d'
+{
+  "query": {
+    "match_all": {}
+  }
+}
+'
+
+
+
+
+
+curl -u elastic:cgEaGr4v -X PUT '35.232.114.27:9200/teachers/' -H 'Content-Type: application/json' -d'
+{
+  "mappings": {
+    "teachers": { 
+      "properties": { 
+        "name":    { "type": "text"  }, 
+        "lastname":     { "type": "text"  }, 
+        "num_courses":      { "type": "integer" },  
+        "last_update_dt":  {
+          "type":   "date", 
+          "format": "yyyy-MM-dd"
+        }
+      }
+    }
+  }
+}'
+
+
+The number of primary shards has to be establish during the index creation and cannot be changed later
+However additional replica shards can be added to support read workloads
+
+PUT /testindex
+{
+	"settings": {
+		"number_of_shards": 2,
+		"number_of_replicas": 2 
+	{
+}
+
