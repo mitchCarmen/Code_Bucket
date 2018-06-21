@@ -1,0 +1,101 @@
+RESOURCES
+
+'https://www.youtube.com/redirect?q=https%3A%2F%2Fwww.w3schools.com%2Fjsref%2Fjsref_obj_regexp.asp&redir_token=iQ5bn69YuT1QFYDQbyRuSx9EtmR8MTUyOTY4NDM4MkAxNTI5NTk3OTgy&v=MwzIRleH47o&event=video_description'
+
+https://regex101.com
+
+
+##########################################
+####### RegEX: Regular Expressions
+
+TAGS
+CHARACTER SET
+RANGE
+META CHARACTERS
+SPECIAL CHARACTERS
+
+
+##########################################
+
+# Tags:
+
+# g : global search
+# i : case Insensitive
+
+/YOUR TEXT HERE / gi
+# searches globally and case Insensitive for the text
+
+##########################################
+
+# Character Set Matching
+
+[ ] looks for a pattern match of anything in the brackets
+[ng]inja 	# Looks for N or G in the first character of the word 'Xinja'
+
+
+# Dont want to Match in Chacter Set
+[^] Looks to match everything except stuff inside the brackets AFTER the ^
+[^abc]000 # Looks for NOT a,b,or c but everything else, and then 000
+
+##########################################
+
+# Range Searches
+
+[a-z]inja # Searches for all letters of the alphabet in the first char position with 'inja' after
+[a-zA-z]inja # Instead of using 'i' tag for insensitive, we can literally search both cases of upper/lower this way
+[0-9]inja # Search Range of any number in first position with 'inja' after
+
+# Phone Number Search Example
+[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9] # 10 positions of any number range for a 10digit phone search
+# Easier this way...
+[0-9]+ # Any number any length long will match. Match unlimited but at least 1
+# With some constraints...
+[0-9]{11} # Repeat this chacter set 11 times next to each other. "11 numbers long of any numbers"
+# Or with words...
+[a-z]{5} # Match any characters of length 5
+[a-z]{5,8} # Match any characters of length 5, 6, 7, or 8 len
+[a-z]{5,} # Match anything that is AT LEAST 5 characters long
+
+##########################################
+
+# MetaCharacters
+
+. # Find a single char except in new line
+\w # find word char -- same as [a-z] or [A-Z] or [0-9]
+\W # find nonword char
+\d # find a digit --  same as [0-9]
+\D # find nonDigit char
+\s # find a whitespace char
+\S # find a nonWhitespace char
+\t # find a tab character
+#### Go to website at top for all of them!!!!!
+
+Ex.
+/ \d /g # means to match any digit char from 0-9
+/ \w /g # matches any number or letter chars; NOT specials
+/ \s /g # matches any white space chars
+
+/ \d\s\w /g # matches 1st char to any digit, 2nd char to any space, 3rd to any digit
+/ \d{3}\s\w{5} /g # want first 3 to be digits, then single white space, then 5 letter word
+"123 hello"
+
+##########################################
+
+# SPECIAL CHARACTERS
+
++ # match one of more char
+\ # match escape char
+[] # match char set
+[^] # match negate symbol in char set
+? # match zero or one quantifier (preceding char is optional)
+. # match any char whatsoever
+* # match 0 or more quantifier, like +
+
+Ex.
+/ hello? /g # The thing before ? is optional-- the 'o' is optional
+/ a[a-z]? /g # 'a is necessary but the a-z is optional'
+/ car. /g # Match 'car' and anything after it for the 4th char
+/ [a-z]* /g # The char before * can appear 0 or many times
+/ a[a-z]* /g # 'a must appear but the char before * can appear 0 or many times
+
+##########################################
