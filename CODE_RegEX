@@ -2,6 +2,8 @@ RESOURCES
 
 'https://www.youtube.com/redirect?q=https%3A%2F%2Fwww.w3schools.com%2Fjsref%2Fjsref_obj_regexp.asp&redir_token=iQ5bn69YuT1QFYDQbyRuSx9EtmR8MTUyOTY4NDM4MkAxNTI5NTk3OTgy&v=MwzIRleH47o&event=video_description'
 
+https://developers.google.com/edu/python/regular-expressions
+
 https://regex101.com
 
 
@@ -84,7 +86,7 @@ Ex.
 # SPECIAL CHARACTERS
 
 + # match one of more char
-\ # match escape char
+\ # match escape char-- escapes the other special char
 [] # match char set
 [^] # match negate symbol in char set
 ? # match zero or one quantifier (preceding char is optional)
