@@ -18,6 +18,12 @@ https://docs.python.org/3/tutorial/index.html
 # 2 : GET REQUESTS: READING DATA FROM THE WEB
 
 
+# Documentation for Anything in Python
+print(map.__doc__) # function is map()
+
+
+
+
 #########################################
 ######################################### BASIC TYPES
 #########################################
@@ -57,7 +63,7 @@ cookie_types.intersection() # set method to return overlapping data (and). A int
 cookie_types.difference() # set method to find differences between sets
 
 
-# DICTIONARIES : Best storing key/value pairs. Can be nested. Iterable.
+# DICTIONARIES : Best storing key/value pairs. Can be nested. Mutable.
 art = {}
 for name, zipcode in galleries: # galleries was a tuple and we want to transform to a dictionary for ease
     art[name] = zipcode

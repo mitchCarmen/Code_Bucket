@@ -11,6 +11,7 @@ https://docs.python.org/3/tutorial/index.html
 # BOOLEAN INDEXING
 # BOOLEAN REPLACEMENT
 # CREATING NEW COLUMN
+# RENAMING COLUMNS
 # APPLY
 # DUPLICATE DATA
 # MISSING DATA
@@ -85,10 +86,15 @@ df[['A','B']] # Pass list of column names inside square brackets for multiple co
 # df.loc uses labels
 
 df.loc['x'] # Selects the first row
+df.loc['men','age'] # Selects 'men' row by the 'age column'
 df.iloc[0] # Selects the first row
 df.iloc[[0,1]] # Selects multiple rows and all columns
 df.iloc[0, :] # Selects first row and all columns
 df.iloc[[0,1], :] # Selects first two rows and all columns
+
+df.loc['Jan':'Apr', : ] # Slices rows for months Jan-April, and ALL Columns
+df.loc[:, 'product1':'product3'] # Slices ALL ROWS, but products 1-3
+
 
 # SUBSETTING ROWS AND COLUMNS
 df.loc[['x','y'],['A','B']] # Selects Rows X & Y and Columns A & B; Lists must be passed
@@ -97,6 +103,10 @@ print(tips.loc[tips['sex'] == 'Female', ['total_bill', 'tip', 'sex']])
 # 3 rows and 3 columns with iloc
 tips.iloc[:3, :3]
 
+
+# COULD ALSO
+df['salt']['Jan']
+# This will first index through the Sale COLUMN, then through the JAN ROW.
 
 ###################### BOOLEAN INDEXING
 
@@ -127,8 +137,15 @@ df['sex'] = df.variable1.str[0] # looks at the first element of the variable col
 
 
 ###################### CREATING NEW DF
+
+# List within the index [ ]  is how we create sub sequent DFs
 # Assume DF has 10 variables
 new_df = DF[['var1','var2','var3','var4']]
+
+
+###################### RENAMING COLUMNS
+
+df.columns = ['name1','name2','name3']
 
 
 ###################### APPLY
@@ -373,11 +390,11 @@ df_dummy = pd.get_dummies(df)
 
 ###################### SCALING DATA
 
-# standardize: subtract the mean and divide by variance
+# Standardized: subtract the mean and divide by variance
 #       - features are centered around zero and have var 1
-# can also subtract min and divide by the range
-#       - features then have min 0 and max 1
-# can also normalize so the range is from -1 to 1
+#       - Go from -1 to 1
+
+# Normalized: Range from 0 to 1
 
 from sklearn.preprocessing import scale
 X_scaled = scale(X)
