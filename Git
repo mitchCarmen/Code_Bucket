@@ -1,0 +1,222 @@
+# Each Git project always has 2 parts: the files & directories that you edit directly, and the extra info that Git records
+# All of this is stored in a dir called .git located in root directory
+# Never edit or delete in .git
+
+
+MOST IMPORTANT COMMANDS
+git status > git add > git commit
+	git push
+	git pull
+
+````````````````````````````````````````````````````````````````````````````
+
+FLAGS
+
+
+HEAD is a shortcut meaning "more recent commit"
+HEAD~1 # refers to commit before last
+HEAD~2 # refers to commit before last last
+
+
+-r (compare to a "particular revision")
+git diff -r HEAD
+git diff -r HEAD path/to/file #compares to a particular file commit
+
+-m (add a message to a commit)
+git commit -m "some message in quotes"
+
+
+
+
+````````````````````````````````````````````````````````````````````````````
+
+GIT
+
+#Git has a staging area in which it stores files with changes you want to save that haven't been saved yet. Putting files in the staging area is like putting things in a box, while committing those changes is like putting that box in the mail: you can add more things to the box or take things out as often as you want, but once you put it in the mail, you can't make further changes.
+
+git status shows which files are in the staging area
+
+
+# Status Check
+# Untracked files dont benefit from version control; git status will always tell about files that are in the repo but not tracked
+git status
+
+# Compare the file as it currently is to what you last saved
+'git diff filename'   # git diff without a filename will show you all the changes in your repo
+
+
+
+STAGING CHANGES
+
+# Files are not "tracked" until they are added to staying. Untracked files won't benefit from version control.
+
+# Add file to Staging
+git add filename.csv'
+# Can simply 'git add filename.text' over the previous 'git add' if you have new edits to save
+
+# Remove file from Staging
+git reset <filename>
+
+# How Can I tell what's goig to be Committed?
+git diff -r HEAD
+
+Unstaging a Stage
+git reset HEAD
+
+
+
+COMMIT CHANGES
+
+# To save changes in the staging area, you use command 'git commit'
+# It saves everything in the staging area as one unit
+# When you commit, you must enter a 'log message'-- why you made a change
+git commit -m "some message in quotes"
+
+# if you accidentally mistyped a message, you can:
+git commit --amend -m "new message"
+
+# If you just type 'git commit' without a message, you will get a text editor template to fill out 
+# Simply put comments at the top of the template (above the # message), Save, and Exit
+Ctrl-O: save the file ('O' stands for 'output').
+Ctrl-X: exit the editor.
+
+
+
+VIEW REPO HISTORY
+
+# To view log of the project history, use 'git log'
+# When you run 'git log', git automatically uses a pager (space bar) to page down one at a time
+# The first log will be at the very bottom-- space bar down
+
+git log data/southern.txt # shows only log on this file rather than full repo
+# Use 'q' to quit out of the view
+
+
+
+SHOW A SPECIFIC COMMIT
+
+git show 0daa4f 
+# Only using the first few characters of the hash
+# Use 'q' to quit out of the view
+
+
+
+SHOW CHANGES BETWEEN 2 COMMITS
+
+# Use 'git diff' with 2 commit IDs
+git diff abc123..xyz456
+git diff HEAD~1..HEAD~2
+
+
+
+BRANCHING
+
+# Show all branches in a repo
+git branch
+
+# Show differences between branches
+git diff branch1..branch2
+
+# Switch to a different branch
+git checkout branch_that_I_want
+
+# Delete a file then commit
+git rm report.txt
+git commit -m "Removing junk file"
+
+# Create new branch
+git checkout -b branch_I_want     # creates and switches to new branch in one step
+
+
+# Merging branches
+#branching lets you create parallel universes; merging brings them back together
+git merge <source> <destination>
+git merge 
+
+
+
+
+TELL GIT TO IGNORE CERTAIN FILES
+
+put these files in .gitignore
+
+
+
+REMOVE UNWANTED FILES -- Be careful with this!!
+
+# Shows  a list of files that are in the repo but where Git is not tracking
+git clean -n
+
+git clean -f  # DELETES THOSE FILES THEN
+
+
+
+UNDO CHANGES TO UNSTAGED FILES-- Use carefully!!!
+
+git reset HEAD path/filename.txt    # Unstages files that you previously staged with 'git add'
+git checkout -- path/filename.txt   # Undoing changes to unstaged file
+git checkout -- .                   # Undo all unstaged files in this path by using '.'
+
+
+
+GIT CONFIG
+
+git config --list
+# Will show system / global / local settings
+# Each level overides the one above it!!!
+git config --list --global
+
+Changing name and email address
+git config --global user.email mitchcarmen87@gmail.com
+
+
+
+DISPLAY CONTENTS OF A FILE
+cat data/western.csv
+
+
+
+CREATE NEW REPO
+
+git init project_name     	# Initializes empty git repo
+
+git init /path/to/project 	# Initializes existing path as new repo in one command
+
+
+
+CLONE EXISTING REPO
+
+git clone www.yeayea.com
+git clone /path/to/project new_project_name 
+
+
+
+DEFINE REMOTE REPOs (Like GitHub)
+git remote add remote-name URL    	# adds more remotes
+git remote rm remote-name 			# removes
+
+
+
+PUSH & PULL (to and from remote repos)
+
+# Remote Repo like GitHub... Pull Request from Collaborators' remote repo... Do work... Push back so everyone has recent
+
+git pull remote-name branch-name 				# Gets everything in branch that is associated with remote
+git pull thunk latest-analysis					# If currently in Quarterly-Report branch, this Gets changes from 'latest-analysis' branch in the repo associated with 'thunk' and merge them into your Quarterly-Report branch
+# Cannot do PULLS if there is unsaved work-- just like switching with unsaved work
+# To fix, either commit or revert them with Git CHECKOUT and then pull again 
+
+git push remote-name branch-name				# Pushes contents of branch-name into remote-name
+git push remote master							# Pushes commit from master into remote
+
+````````````````````````````````````````````````````````````````````````````
+
+TEXT EDITOR COMMANDS
+
+nano # opens a file (or creates it if it doesnt exist) from CLI
+nano names.txt
+
+Ctrl-K: delete a line.
+Ctrl-U: un-delete a line.
+Ctrl-O: save the file ('O' stands for 'output').
+Ctrl-X: exit the editor.
