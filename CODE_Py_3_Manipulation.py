@@ -85,7 +85,7 @@ df[['A','B']] # Pass list of column names inside square brackets for multiple co
 # df.iloc uses indeces numbers
 # df.loc uses labels
 
-df.loc['x'] # Selects the first row
+df.loc['x'] # Selects the row named 'x'
 df.loc['men','age'] # Selects 'men' row by the 'age column'
 df.iloc[0] # Selects the first row
 df.iloc[[0,1]] # Selects multiple rows and all columns

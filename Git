@@ -134,7 +134,7 @@ git merge <source> <destination>
 git merge 
 
 
-
+q
 
 TELL GIT TO IGNORE CERTAIN FILES
 
